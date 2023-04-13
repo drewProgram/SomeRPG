@@ -18,7 +18,7 @@ The main characteristics of a character is:
 - Equipment
 
 ## Map
-Will be rendered a char map every round to the player check where can go. Exemple:
+Will be rendered a char map every round to the player check where can go. Exemple (WIP):
 
 Floor 1
 |------------------------|
