@@ -5,13 +5,10 @@
 #include <iostream>
 #include <string>
 
-#define _IN
-#define _OUT
-
-// Escape
-#define ESC "\x1b"
-// Control Sequence Introduction
-#define CSI "\x1b["
+// Project headers
+#include "Utils.h"
+#include "Screen.h"
+#include "Game.h"
 
 bool EnableVTMode(_OUT HANDLE &hOut, _OUT HANDLE &hIn, _OUT DWORD &dwMode)
 {
@@ -56,15 +53,9 @@ int main()
 		return -1;
 	}
 
-	// game constants
-	/*const int ScreenWidth = 100;
-	const int ScreenHeight = 50;*/
-
-	//wchar_t* Screen = new wchar_t[ScreenHeight * ScreenWidth];
-	
-
 	// Setting window title?
 	std::cout << ESC << "]0;RPG\x1b\x5c";
+	std::cout << ESC << "[?3h";
 
 	CONSOLE_SCREEN_BUFFER_INFO ScreenBufferInfo;
 	if (GetConsoleScreenBufferInfo(hOut, &ScreenBufferInfo) == 0)
@@ -73,38 +64,29 @@ int main()
 		return -1;
 	}
 	COORD Size;
-	Size.X = ScreenBufferInfo.srWindow.Right - ScreenBufferInfo.srWindow.Left + 1;
-	Size.Y = ScreenBufferInfo.srWindow.Bottom - ScreenBufferInfo.srWindow.Top + 1;
+	Size.X = ScreenBufferInfo.srWindow.Right - ScreenBufferInfo.srWindow.Left + 1; // 120
+	Size.Y = ScreenBufferInfo.srWindow.Bottom - ScreenBufferInfo.srWindow.Top + 1; // 30
 
 	wchar_t* Screen = new wchar_t[Size.X * Size.Y + 1];
+	Screen[Size.Y * Size.X] = '\0';
 
 	// Switching to alternate buffer
 	std::cout << CSI << "?1049h";
 
 	// Clear screen
 	std::cout << CSI << "2J";
-
-	for (int x = 0; x < Size.X; x++)
-	{
-		for (int y = 0; y < Size.Y; y++)
-		{
-			
-			Screen[x + y * Size.X] = 'o';
-		}
-	}
 	
-	Screen[Size.Y * Size.X] = '\0';
 	WriteConsole(hOut, Screen, Size.Y * Size.X, &dwBytesWritten, NULL);
-
-	//int n = 0;
-	//while (n == 0) 
-	//{
-	//	n++;
-	//	// processInput();
-	//	// update()
-	//	// render()
-	//}
-	//} 
+	std::cout << "X: " << Size.X;
+	std::cout << "\nY: " << Size.Y;
+	int n = 0;
+	while (n == 0) 
+	{
+		n++;
+		// processInput();
+		// update()
+		// render()
+	}
 
 	delete[] Screen;
 

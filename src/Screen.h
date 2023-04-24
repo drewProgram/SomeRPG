@@ -4,6 +4,5 @@
 
 struct Screen
 {
-	wchar_t* currentScreen;
-	wchar_t* nextScreen;
+	wchar_t* m_currentScreen;
 };

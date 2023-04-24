@@ -96,3 +96,31 @@ A simple menu with some options will be rendered. Example:
 |                                                    |
 | Enemy is preparing to act...                       |
 |====================================================|
+
+## Programming strategies
+### wchar_t arrays
+- 1 array before level start that defines the initial layout of the level
+- 1 array that changes each frame. It updates all the things that appear on the screen.
+- Loop stages (each frame):
+	- Check current array (positions of all entities of the level),
+	- Check if needs to do something (start battle, get item, open inventory)
+	- Event listener for keyboard inputs
+		- If it has an move event, calculate to update the next position of the character and clean the current position
+
+- The arrays will be of enums and each number will equal to some string in the write time.
+
+### Movement calculation
+First, we need to check if the character wants to move to a valid position. One good option is to validate if the position code is
+of an obstacle (wall, chest). If it is, block the action.
+If the position is valid, check a couple of things:
+- If direction is UP: current position - number of columns
+- If direction is LEFT: current position - 1
+- If direction is RIGHT: current position + 1
+- If direction is DOWN: current position + number of columns
+
+### Directions
+- Create vector class for directions?
+
+## Interaction with environment
+- Press Z to confirm/interact with things on the level
+	If you have 
